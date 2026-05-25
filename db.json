@@ -1,0 +1,5 @@
+{
+    "sports": [
+        {"name": "فوتبال", "singular": false, "has_leage": true}
+    ]
+}
