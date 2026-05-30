@@ -113,4 +113,10 @@
   select {
     @apply focus:outline-0 border px-2 py-1 rounded-md border-gray-300 ring-2 ring-offset-2 ring-transparent focus:border-transparent focus:ring-gray-400;
   }
+
+  table {
+    & th {
+      @apply text-gray-500 font-black;
+    }
+  }
 }

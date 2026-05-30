@@ -3,7 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-export default function Header({ menu }) {
+export default function Header({ menu2 }) {
   const path = usePathname();
   return (
     <header className="bg-white/75 sticky top-0 z-999 shadow-xl shadow-gray-200/60 flex justify-between items-center px-10 py-4">
@@ -12,7 +12,7 @@ export default function Header({ menu }) {
       </div>
       <div className="">
         <ul className="flex items-center gap-x-2">
-          {menu?.map((item, index) => (
+          {menu2?.map((item, index) => (
             <li key={`item-${index + 1}`} className="">
               <Link
                 href={item.path}

@@ -9,7 +9,7 @@ const menu = [
 export default function SiteLayout({ children }) {
   return (
     <>
-      <Header menu={menu} />
+      <Header menu2={menu} />
       <main className="px-10 pt-10">{children}</main>
     </>
   );

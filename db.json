@@ -1,5 +1,47 @@
 {
-    "sports": [
-        {"name": "فوتبال", "singular": false, "has_leage": true}
-    ]
+  "sports": [
+    {
+      "name": "فوتبال",
+      "singular": false,
+      "has_leage": true,
+      "id": "WQJ-Fnf0WkY"
+    },
+    {
+      "name": "شنا",
+      "singular": "true",
+      "has_leage": true,
+      "id": "mjwhNM_haII"
+    },
+    {
+      "name": "والیبال",
+      "singular": "false",
+      "has_leage": true,
+      "id": "fADDNguG4CA"
+    },
+    {
+      "name": "هندبال",
+      "singular": false,
+      "has_leage": false,
+      "id": "oxxrkoSaq64"
+    },
+    {
+      "name": "اسب سواری",
+      "singular": "true",
+      "has_leage": true,
+      "id": "kNrfNOCwix4"
+    },
+    {
+      "name": "",
+      "singular": false,
+      "has_leage": true,
+      "id": "Yc_-Pk0DmDc"
+    },
+    {
+      "name": "شطرنج",
+      "singular": "true",
+      "has_leage": false,
+      "id": "WmOpodUdLks"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
