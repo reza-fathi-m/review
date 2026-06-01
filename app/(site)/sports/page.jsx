@@ -1,8 +1,10 @@
 "use client";
+import { fetchApi } from "@/lib/fetch-api";
 import { Pencil, Plus, Trash, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 export default function SportsPage() {
+  const [formAction, setFormAction] = useState("INSERT");
   const [showDialog, setShowDialog] = useState(false);
   const [sports, setSports] = useState([]);
   const [sportSelected, setSportSelected] = useState({
@@ -19,28 +21,57 @@ export default function SportsPage() {
       id: "",
     });
     setShowDialog(false);
+    setFormAction("INSERT");
   };
   const fetchAllSports = async () => {
-    const res = await fetch("http://localhost:3001/sports");
-    if (res.ok) {
+    const res = await fetchApi("http://localhost:3001/sports");
+    if (res) {
       const data = await res.json();
       setSports(data);
     }
   };
+
   useEffect(() => {
     fetchAllSports();
   }, []);
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const res = await fetch("http://localhost:3001/sports/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(sportSelected),
-    });
-    if (res.ok) {
+    let res;
+    switch (formAction) {
+      case "INSERT":
+        res = await fetchApi(
+          "http://localhost:3001/sports/",
+          "POST",
+          sportSelected,
+        );
+        break;
+
+      case "UPDATE":
+        res = await fetchApi(
+          `http://localhost:3001/sports/${sportSelected.id}`,
+          "PUT",
+          sportSelected,
+        );
+        break;
+      case "DELETE":
+        res = await fetchApi(
+          `http://localhost:3001/sports/${sportSelected.id}`,
+          "DELETE",
+        );
+        break;
+    }
+    // if (formAction === "INSERT") {
+    //   const res = await fetchApi(
+    //     "http://localhost:3001/sports/",
+    //     "POST",
+    //     sportSelected,
+    //   );
+    // } else if (formAction === "UPDATE") {
+    // } else if (formAction === "DELETE") {
+    // }
+
+    if (res) {
       await fetchAllSports();
       resetForm();
     }
@@ -58,7 +89,14 @@ export default function SportsPage() {
           >
             <X />
           </button>
-          <h1 className="text-2xl font-black text-center pb-6">افزودن ورزش</h1>
+          <h1 className="text-2xl font-black text-center pb-6">
+            {formAction === "INSERT"
+              ? "افزودن"
+              : formAction === "UPDATE"
+                ? "ویرایش"
+                : "حذف"}{" "}
+            ورزش
+          </h1>
           <div className="pt-4">
             <form onSubmit={submitHandler} className="grid gap-y-6">
               <div className="grid gap-3">
@@ -118,9 +156,19 @@ export default function SportsPage() {
               <div className="grid grid-cols-2 gap-x-2">
                 <button
                   type="submit"
-                  className="bg-emerald-500 text-white py-1.5 rounded-lg cursor-pointer hover:bg-emerald-600"
+                  className={`text-white py-1.5 rounded-lg cursor-pointer ${
+                    formAction === "INSERT"
+                      ? "bg-blue-600 hover:bg-blue-700"
+                      : formAction === "UPDATE"
+                        ? "bg-emerald-500 hover:bg-emerald-600"
+                        : "bg-red-500 hover:bg-red-600"
+                  } `}
                 >
-                  ذخیره
+                  {formAction === "INSERT"
+                    ? "افزودن"
+                    : formAction === "UPDATE"
+                      ? "ویرایش"
+                      : "حذف"}
                 </button>
                 <button
                   onClick={resetForm}
@@ -171,10 +219,24 @@ export default function SportsPage() {
                     {sport.has_leage ? "بله" : "خیر"}
                   </td>
                   <td className="px-3 py-1.5 flex gap-x-2 w-auto">
-                    <button className="size-8 bg-emerald-500 text-white rounded-lg grid place-items-center p-1.5">
+                    <button
+                      className="size-8 bg-emerald-500 text-white rounded-lg grid place-items-center p-1.5"
+                      onClick={() => {
+                        setFormAction("UPDATE");
+                        setSportSelected(sport);
+                        setShowDialog(true);
+                      }}
+                    >
                       <Pencil className="size-5" />
                     </button>
-                    <button className="ize-8 bg-red-500 text-white rounded-lg grid place-items-center p-1.5">
+                    <button
+                      className="ize-8 bg-red-500 text-white rounded-lg grid place-items-center p-1.5"
+                      onClick={() => {
+                        setFormAction("DELETE");
+                        setSportSelected(sport);
+                        setShowDialog(true);
+                      }}
+                    >
                       <Trash className="size-5" />
                     </button>
                   </td>

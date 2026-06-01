@@ -1,4 +1,10 @@
 import "./globals.css";
+import localFont from "next/font/local";
+
+const estedadFont = localFont({
+  src: "./fonts/Estedad[wght,kshd].woff2",
+  variable: "--font-persian",
+});
 
 export const metadata = {
   title: "ورزش روز",
@@ -7,7 +13,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="fa" dir="rtl" className={`h-full antialiased`}>
+    <html
+      lang="fa"
+      dir="rtl"
+      className={`h-full antialiased ${estedadFont.variable}`}
+    >
       <body className="min-h-full flex flex-col bg-gray-200">{children}</body>
     </html>
   );

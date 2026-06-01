@@ -41,6 +41,12 @@
       "singular": "true",
       "has_leage": false,
       "id": "WmOpodUdLks"
+    },
+    {
+      "name": "دومیدانی",
+      "singular": "true",
+      "has_leage": false,
+      "id": "tLsIq3MDCow"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
