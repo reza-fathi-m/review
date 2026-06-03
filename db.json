@@ -47,6 +47,12 @@
       "singular": "true",
       "has_leage": false,
       "id": "tLsIq3MDCow"
+    },
+    {
+      "name": "کاراته",
+      "singular": "true",
+      "has_leage": true,
+      "id": "Sft9KrdUp2U"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

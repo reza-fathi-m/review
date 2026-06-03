@@ -1,5 +1,10 @@
 import "./globals.css";
 import localFont from "next/font/local";
+import { Inter } from "next/font/google";
+import { cn } from "@/lib/utils";
+import { DirectionProvider } from "@/components/ui/direction";
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 const estedadFont = localFont({
   src: "./fonts/Estedad[wght,kshd].woff2",
@@ -16,9 +21,11 @@ export default function RootLayout({ children }) {
     <html
       lang="fa"
       dir="rtl"
-      className={`h-full antialiased ${estedadFont.variable}`}
+      className={cn("h-full", "antialiased", estedadFont.variable)}
     >
-      <body className="min-h-full flex flex-col bg-gray-200">{children}</body>
+      <body className="min-h-full flex flex-col bg-gray-200">
+        <DirectionProvider direction={"rtl"}>{children}</DirectionProvider>
+      </body>
     </html>
   );
 }
