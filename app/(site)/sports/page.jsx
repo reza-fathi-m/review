@@ -6,7 +6,24 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose} from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectLabel,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -16,7 +33,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { fetchApi } from "@/lib/fetch-api";
-import { Pencil, Plus, Trash, X } from "lucide-react";
+import {CircleCheck, CircleX, Pencil, Plus, Trash, UserRound, UsersRound, X} from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 export default function SportsPage() {
@@ -47,15 +64,21 @@ export default function SportsPage() {
     }
   };
 
-  useEffect(() => {
-    fetchAllSports();
+  useEffect( () => {
+    fetchAllSports().then(() => console.log("Fetch is Successful!"));
   }, []);
+  // useEffect(() => {
+  //   console.log(sportSelected);
+  // }, [sportSelected]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
+
     let res;
     switch (formAction) {
       case "INSERT":
+
+
         res = await fetchApi(
           "http://localhost:3001/sports/",
           "POST",
@@ -64,10 +87,12 @@ export default function SportsPage() {
         break;
 
       case "UPDATE":
+        console.log("Form Action is INSERT");
+        const {id, ...updateData} = sportSelected
         res = await fetchApi(
-          `http://localhost:3001/sports/${sportSelected.id}`,
+          `http://localhost:3001/sports/${id}`,
           "PUT",
-          sportSelected,
+          updateData,
         );
         break;
       case "DELETE":
@@ -77,15 +102,6 @@ export default function SportsPage() {
         );
         break;
     }
-    // if (formAction === "INSERT") {
-    //   const res = await fetchApi(
-    //     "http://localhost:3001/sports/",
-    //     "POST",
-    //     sportSelected,
-    //   );
-    // } else if (formAction === "UPDATE") {
-    // } else if (formAction === "DELETE") {
-    // }
 
     if (res) {
       await fetchAllSports();
@@ -95,22 +111,104 @@ export default function SportsPage() {
 
   return (
     <>
-      <Dialog open={showDialog} onClose={resetForm} showCloseBtn={"false"} >
-        <DialogContent className={'sm:max-w-md'} showCloseButton={false}>
-        <DialogHeader>
-          <DialogTitle>
-            {formAction === "INSERT"
-                ? "افزودن"
-                : formAction === "UPDATE"
+      <Dialog open={showDialog}>
+        <form>
+          <DialogContent showCloseButton={false}>
+            <DialogHeader>
+              <DialogTitle className={"text-2xl font-bold"}>
+                {formAction === "INSERT"
+                  ? "افزودن"
+                  : formAction === "UPDATE"
                     ? "ویرایش"
                     : "حذف"}{" "}
-            ورزش
-          </DialogTitle>
-          <DialogClose asChild>
-            <Button variant={'outline'} size={'icon'} type="button" onClick={resetForm} className={'absolute top-4 left-4'}><X /></Button>
-          </DialogClose>
-        </DialogHeader>
-        </DialogContent>
+                ورزش
+              </DialogTitle>
+              <Button
+                size="icon-xs"
+                variant="outline"
+                onClick={resetForm}
+                className={"left-4 absolute"}
+              >
+                <X />
+              </Button>
+            </DialogHeader>
+            <div className="grid gap-y-6">
+              <div className="grid gap-3">
+                <Label htmlFor=""> نام ورزش</Label>
+                <Input
+                  type={"text"}
+                  value={sportSelected.name}
+                  onChange={(e) =>
+                    setSportSelected({ ...sportSelected, name: e.target.value })
+                  }
+                />
+              </div>
+              <div className="grid gap-3">
+                <Label htmlFor=""> نوع ورزش</Label>
+                <Select
+                  value={sportSelected.singular}
+                  onValueChange={(value) =>
+                    setSportSelected({ ...sportSelected, singular: value })
+                  }
+                  defaultValue={"false"}
+                >
+                  <SelectTrigger className="w-full ">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>نوع ورزش</SelectLabel>
+                      <SelectItem value="true">انفرادی</SelectItem>
+                      <SelectItem value="false">گروهی</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid gap-3">
+                <Label htmlFor="">دارای لیگ است ؟</Label>
+                <RadioGroup
+                  defaultValue="true"
+                  className="w-fit"
+                  value={sportSelected.has_leage}
+                  onValueChange={(value) =>
+                    setSportSelected({ ...sportSelected, has_leage: value })
+                  }
+                >
+                  <div className="flex items-center gap-3">
+                    <RadioGroupItem value="true" id="r1" />
+                    <Label htmlFor="r1">بله</Label>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <RadioGroupItem value="false" id="r2" />
+                    <Label htmlFor="r2">خیر</Label>
+                  </div>
+                </RadioGroup>
+              </div>
+              <div className="">
+                <Button
+                  onClick={submitHandler}
+                  className={
+                    formAction === "INSERT"
+                      ? "bg-sky-500 hover:bg-sky-600"
+                      : formAction === "UPDATE"
+                        ? "bg-emerald-500 hover:bg-emerald-600"
+                        : "bg-red-500 hover:bg-red-600"
+                  }
+                >
+                  {formAction === "INSERT"
+                    ? "افزودن"
+                    : formAction === "UPDATE"
+                      ? "ویرایش"
+                      : "حذف"}
+                </Button>
+
+                <Button variant="ghost" onClick={resetForm} type="reset">
+                  انصراف
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </form>
       </Dialog>
       {/* <div
         className={`fixed bg-black/60 backdrop-blur-sm z-999 w-full min-h-screen h-screen top-0 right-0 place-items-center ${showDialog ? "grid" : "hidden"}`}
@@ -240,8 +338,8 @@ export default function SportsPage() {
                   <TableRow key={sport.id}>
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>{sport.name}</TableCell>
-                    <TableCell>{sport.singular ? "فردی" : "گروهی"}</TableCell>
-                    <TableCell>{sport.has_leage ? "بله" : "خیر"}</TableCell>
+                    <TableCell>{sport.singular ? <span className={'inline-flex flex-row-reverse items-center gap-x-2'}>فردی <UserRound /></span> : <span className={'inline-flex flex-row-reverse items-center gap-x-2'}>گروهی <UsersRound /></span>}</TableCell>
+                    <TableCell>{sport.has_leage ? <CircleCheck className={'text-emerald-500'} /> : <CircleX className={'text-red-600'} /> }</TableCell>
                     <TableCell>
                       <Button
                         size="icon"

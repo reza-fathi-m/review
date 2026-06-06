@@ -8,14 +8,14 @@
     },
     {
       "name": "شنا",
-      "singular": "true",
+      "singular": true,
       "has_leage": true,
       "id": "mjwhNM_haII"
     },
     {
       "name": "والیبال",
       "singular": "false",
-      "has_leage": true,
+      "has_leage": "true",
       "id": "fADDNguG4CA"
     },
     {
@@ -26,33 +26,33 @@
     },
     {
       "name": "اسب سواری",
-      "singular": "true",
+      "singular": true,
       "has_leage": true,
       "id": "kNrfNOCwix4"
     },
     {
-      "name": "",
-      "singular": false,
-      "has_leage": true,
-      "id": "Yc_-Pk0DmDc"
-    },
-    {
       "name": "شطرنج",
-      "singular": "true",
+      "singular": true,
       "has_leage": false,
       "id": "WmOpodUdLks"
     },
     {
       "name": "دومیدانی",
-      "singular": "true",
+      "singular": true,
       "has_leage": false,
       "id": "tLsIq3MDCow"
     },
     {
       "name": "کاراته",
-      "singular": "true",
+      "singular": true,
       "has_leage": true,
       "id": "Sft9KrdUp2U"
+    },
+    {
+      "name": "اسکی",
+      "singular": true,
+      "has_leage": false,
+      "id": "ZbTv1jJxcDQ"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
